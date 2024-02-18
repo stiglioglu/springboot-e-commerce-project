@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments :: html_head}">
+
+</head>
+
+<body>
+    <div th:replace="~{fragments :: menu}" />
+    
+    <!-- Header-->
+    <header class="bg-dark py-1">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Sepetim</h1>
+            </div>
+        </div>
+    </header>
+    <!-- Section-->
+    <section th:if="${session.id == null}">
+    <div class="container py-5 text-center">
+            <div class="row">
+            <h1>Önce giriş yapınız</h1>
+            </div>
+    </div>
+    	
+    </section>
+    
+    
+    <section th:if="${session.id != null}">
+        <div class="container py-5">
+            <div class="row">
+            <div class="alert alert-primary" role="alert" th:if="${error != null}">
+			  <p th:text="${error}"/>
+			</div>
+                <div class="col-md-12">
+                    <table class="table">
+                        <thead class="bg-dark text-white">
+                            <tr>
+                                <th>İsim</th>
+                                <th>Birim Fiyatı</th>
+                                <th>Ürünün Güncel Fiyatı</th>
+                                <th>Miktar</th>
+                                <th>Toplam Tutar</th>
+                                <th>Sipariş Tarihi</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                       		<tr th:each="order : ${orders}">
+                                <td th:text="${order.isim}" />
+                                <td th:text="${order.fiyat}" />
+                                <td th:text="${order.guncelFiyat}" />
+                                <td th:text="${order.adet}" />
+                                <td th:text="${order.fiyat * order.adet}" />
+                                <td th:text="${order.tarih}" />
+                                
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+    
+    <!-- Footer-->
+    <div th:replace="~{fragments :: footer}" />
+</body>
+
+</html>

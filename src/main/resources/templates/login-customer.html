@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments :: html_head}">
+
+</head>
+
+<body>
+    <div th:replace="~{fragments :: menu}" />
+    
+    <!-- Header-->
+    <header class="bg-dark py-1">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Giriş Yap</h1>
+            </div>
+        </div>
+    </header>
+    <!-- Section-->
+    <section>
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    
+                    <form th:action="@{/customer/login}" th:object="${customer}" method="POST">
+                    
+                    	<label for="ad" class="form-label">Adınız</label>
+                        <input type="text" class="form-control" id="ad"
+                            th:field="*{customerName}"/>
+                   
+                        <label for="miktar" class="form-label">Şifreniz</label>
+                        <input type="password" class="form-control" id="miktar"
+                             th:field="*{customerPassword}"/>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Gönder</button>
+                        
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer-->
+    <div th:replace="~{fragments :: footer}" />
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+</body>
+
+</html>

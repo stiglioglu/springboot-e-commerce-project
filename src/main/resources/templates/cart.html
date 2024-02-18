@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments :: html_head}">
+
+</head>
+
+<body>
+    <div th:replace="~{fragments :: menu}" />
+    
+    <!-- Header-->
+    <header class="bg-dark py-1">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Sepetim</h1>
+            </div>
+        </div>
+    </header>
+    <!-- Section-->
+    <section th:if="${session.id == null}">
+    <div class="container py-5 text-center">
+            <div class="row">
+            <h1>Önce giriş yapınız</h1>
+            </div>
+    </div>
+    	
+    </section>
+    
+    
+    
+    <section th:if="${session.id != null}">
+        <div class="container py-5">
+            <div class="row">
+            <div class="alert alert-primary" role="alert" th:if="${error != null}">
+			  <p th:text="${error}"/>
+			</div>
+                <div class="col-md-9">
+                    <table class="table">
+                        <thead class="bg-dark text-white">
+                            <tr>
+                                <th>Görsel</th>
+                                <th>İsim</th>
+                                <th>Birim Fiyatı</th>
+                                <th></th>
+                                <th>Miktar</th>
+                                <th></th>
+                                <th>Toplam Tutar</th>
+                                <th><i class="fa-solid fa-trash"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        	<tr th:each="product : ${products}">
+                                <td>img</td>
+                                <td th:text="${product.productName}" />
+                                <td th:text="${product.productPrice}" />
+                               	<td>
+                               	<form th:action="@{/cart/azalt}" method="POST">
+								    <input type="hidden" name="customerId" id="customerId" th:value="${session.id}" />
+								    <input type="hidden" name="productId" id="productId" th:value="${product.productId}" />
+								    <button class="btn btn-secondary" type="submit">-</button>
+								</form>
+                               	</td>
+                                
+                                <td class="text-center" th:text="${productMap.get(product.productId)}" />
+                                <td>
+                                <form th:action="@{/cart/arttır}" method="POST">
+								    <input type="hidden" name="customerId" id="customerId" th:value="${session.id}" />
+								    <input type="hidden" name="productId" id="productId" th:value="${product.productId}" />
+								    <button class="btn btn-success" type="submit">+</button>
+								</form>
+                                </td>
+                                <td th:text="${product.productPrice * productMap.get(product.productId)}" />
+                                <td>
+                                
+                                <form th:action="@{/cart/sil}" method="POST">
+								    <input type="hidden" name="customerId" id="customerId" th:value="${session.id}" />
+								    <input type="hidden" name="productId" id="productId" th:value="${product.productId}" />
+								    <button class="btn btn-danger" type="submit">sil</button>
+								</form>
+                                
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-3">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                        	Sepet Tutarı: <span th:text="${cart.toplamTutar}"/> ₺
+                        </li>
+                    </ul>
+                    <br>
+                    <form th:action="@{/order/siparis}" method="POST">
+					    <button class="btn btn-primary" type="submit">Siparişi Tamamla</button>
+					</form>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+    
+    <!-- Footer-->
+    <div th:replace="~{fragments :: footer}" />
+</body>
+
+</html>
